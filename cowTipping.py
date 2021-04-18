@@ -46,6 +46,8 @@ class Player(pygame.sprite.Sprite):
 		self.direction = 'RIGHT'
 		self.pushing = False
 		self.pushed_over = False
+		self.yolo = pygame.mixer.Sound(os.path.join('Assets', 'yolo.mp3'))
+
 
 		self.idle_frame = 0
 		self.push_frame = 0
@@ -87,6 +89,7 @@ class Player(pygame.sprite.Sprite):
 		else:
 			self.pushed_over = True
 			self.image = push[1]
+			self.yolo.play()
 				
 		self.push_frame += 1
 		
@@ -133,12 +136,10 @@ class Cow(pygame.sprite.Sprite):
 		hits = pygame.sprite.spritecollide(self, Playergroup, False)
 
 		if hits and player.pushed_over == True:
-			print("Pushing cow")
 			self.tipped = True
-			self.moo.play()
 			player.pushed_over = False
 		elif hits and player.pushing:
-			print('hit')
+			self.moo.play()
 			self.stop = True
 		else:
 			self.stop = False
